@@ -3,6 +3,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Album_Web.Entities;
+using Album_Web.Hubs;
 using Album_Web.Utils;
 
 using AutoMapper;
@@ -35,15 +36,16 @@ namespace Album_Web
             {
                 options.UseNpgsql(Configuration.GetConnectionString("Default"));
             });
-            services.AddIdentity<UserEntity,IdentityRole>(options =>
+            services.AddIdentity<UserEntity, IdentityRole>(options =>
+             {
+                 options.Password.RequireDigit = false;
+                 options.Password.RequiredLength = 6;
+                 options.Password.RequireLowercase = false;
+                 options.Password.RequireNonAlphanumeric = false;
+                 options.Password.RequireUppercase = false;
+             }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+            services.AddAuthentication(options =>
             {
-                options.Password.RequireDigit = false;
-                options.Password.RequiredLength = 6;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-            }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
-            services.AddAuthentication(options => {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
@@ -74,13 +76,7 @@ namespace Album_Web
                 });
             services.AddSignalR();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddControllers(options =>
-            {
-                #region
-                //options.Filters.Add<ValidateModelAttribute>();
-                //options.Filters.Add<ApiResultFilterAttribute>();
-                #endregion
-            });
+            services.AddControllersWithViews();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -90,6 +86,10 @@ namespace Album_Web
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles();
+
+            app.UseDefaultFiles();
+
             app.UseRouting();
 
             app.UseAuthentication();
@@ -98,7 +98,10 @@ namespace Album_Web
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapHub<PushHub>("/hubs/push");
             });
         }
     }
