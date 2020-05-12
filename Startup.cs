@@ -50,7 +50,6 @@ namespace Album_Web
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
                 {
-                    //options.Authority = "http://localhost:5000/login";
                     options.RequireHttpsMetadata = false;
                     options.SaveToken = true;
                     options.TokenValidationParameters = new TokenValidationParameters
@@ -64,9 +63,7 @@ namespace Album_Web
                         OnMessageReceived = context =>
                         {
                             var accessToken = context.Request.Query["access_token"];
-                            //var path = context.HttpContext.Request.Path;
-                            if (!string.IsNullOrEmpty(accessToken) /* &&
-                                (path.StartsWithSegments("/hubs/chat"))*/)
+                            if (!string.IsNullOrEmpty(accessToken))
                             {
                                 context.Token = accessToken;
                             }

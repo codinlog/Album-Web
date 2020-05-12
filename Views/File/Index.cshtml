@@ -1,0 +1,18 @@
+﻿@model FileUploadViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+    <form enctype="multipart/form-data" method="post" asp-action="upload">
+        <dl>
+            <dt>
+                <label asp-for="@Model.FormFile"></label>
+            </dt>
+            <dd>
+                <input asp-for="@Model.FormFile" type="file" multiple>
+                <span asp-validation-for="@Model.FormFile"></span>
+            </dd>
+        </dl>
+        <button type="submit">Submit</button>
+    </form>
+
