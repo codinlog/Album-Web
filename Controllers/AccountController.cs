@@ -1,10 +1,12 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
 using Album_Web.Entities;
 using Album_Web.Models;
 using Album_Web.Utils;
+
 using AutoMapper;
 
 using Microsoft.AspNetCore.Authorization;
@@ -20,6 +22,7 @@ namespace Album_Web.Controllers
         private readonly UserManager<UserEntity> userManager;
         private readonly SignInManager<UserEntity> signInManager;
         private readonly IMapper mapper;
+
         public AccountController(UserManager<UserEntity> userManager
             , SignInManager<UserEntity> signInManager
             , IMapper mapper)

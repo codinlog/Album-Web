@@ -1,19 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+
 using Album_Web.Models;
+
 using Microsoft.AspNetCore.SignalR;
+
 using Newtonsoft.Json;
 
 namespace Album_Web.Hubs
 {
-
     public interface IPushHub
     {
         public void PushMsg(String msg);
     }
-
 
     public class PushHub : Hub
     {
@@ -23,8 +22,8 @@ namespace Album_Web.Hubs
             {
                 ChannelId = "codinlog",
                 ChannelName = "codinlog",
-                Title = "codinlog",
-                Content = "codinlog",
+                Title = "连接成功",
+                Content = "成功与服务器建立连接",
                 SmallIcon = null,
                 AutoCancel = true
             });
@@ -35,7 +34,7 @@ namespace Album_Web.Hubs
         public void PushMsg(MsgModel msgModel)
         {
             string msg = JsonConvert.SerializeObject(msgModel);
-            Clients.All.SendAsync("pushMsg",msg);
+            Clients.All.SendAsync("pushMsg", msg);
         }
     }
 }

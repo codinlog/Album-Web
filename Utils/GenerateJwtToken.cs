@@ -1,10 +1,8 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 
 using Album_Web.Entities;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Album_Web.Utils
 {

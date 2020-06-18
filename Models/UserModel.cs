@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc;
+
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Album_Web.Models
@@ -7,8 +7,9 @@ namespace Album_Web.Models
     public class UserModel
     {
         [BindRequired]
-        [Required,MaxLength(20)]
+        [Required, MaxLength(20)]
         public string UserName { get; set; }
+
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 

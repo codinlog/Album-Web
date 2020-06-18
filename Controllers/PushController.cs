@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Album_Web.Hubs;
+﻿using Album_Web.Hubs;
 using Album_Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -18,7 +14,7 @@ namespace Album_Web.Controllers
         private readonly IHubContext<PushHub> pushHub;
         private readonly ILogger<PushController> logger;
 
-        public PushController(IHubContext<PushHub> pushHub,ILogger<PushController> logger)
+        public PushController(IHubContext<PushHub> pushHub, ILogger<PushController> logger)
         {
             this.pushHub = pushHub;
             this.logger = logger;
@@ -37,7 +33,6 @@ namespace Album_Web.Controllers
         {
             string msg = JsonConvert.SerializeObject(msgModel);
             pushHub.Clients.All.SendAsync("pushMsg", msg);
-            logger.LogInformation(msg);
             return RedirectToAction(nameof(Index));
         }
 

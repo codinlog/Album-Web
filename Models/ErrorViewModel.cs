@@ -1,5 +1,3 @@
-using System;
-
 namespace Album_Web.Models
 {
     public class ErrorViewModel
